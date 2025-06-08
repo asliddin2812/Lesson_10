@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from drf_yasg.utils import swagger_auto_schema
@@ -58,6 +59,7 @@ def construction_list(request):
 
 @swagger_auto_schema(methods=['post'], request_body=ConstructionSerializer)
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def construction_create(request):
     serializer = ConstructionSerializer(data=request.data)
     if serializer.is_valid():
@@ -68,6 +70,7 @@ def construction_create(request):
 
 @swagger_auto_schema(methods=['put'], request_body=ConstructionSerializer)
 @api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def construction_update(request, pk):
     try:
         instance = Construction.objects.get(pk=pk)
@@ -83,6 +86,7 @@ def construction_update(request, pk):
 
 @swagger_auto_schema(methods=['delete'])
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def construction_delete(request, pk):
     instance = Construction.objects.get(pk=pk)
     instance.delete()
